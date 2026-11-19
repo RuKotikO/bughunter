@@ -12,15 +12,114 @@ body {
     padding: 24px;
 }
 
+/* Авторизация и регистрация */
+.auth-box {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auth-box h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.auth-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.auth-box button:hover {
+    background-color: #1d4ed8;
+}
+
+.auth-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.alert.error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* Главная страница и таблицы */
 .container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-h1 {
-    font-size: 24px;
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
     margin-bottom: 24px;
-    color: #111827;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.topbar h1 {
+    font-size: 20px;
+}
+
+.user-panel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+}
+
+.btn-logout {
+    padding: 6px 14px;
+    background-color: #ef4444;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    background-color: #dc2626;
 }
 
 .table-section {
@@ -58,15 +157,10 @@ th, td {
 th {
     background-color: #f9fafb;
     font-weight: 600;
-    color: #374151;
 }
 
 tr:nth-child(even) {
     background-color: #f9fafb;
-}
-
-tr:hover {
-    background-color: #eff6ff;
 }
 
 .empty-msg {

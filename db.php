@@ -1,9 +1,8 @@
 <?php
-$dbFile = __DIR__ . '/bughunter.db';
+ob_start();
+session_start();
 
-if (!file_exists($dbFile)) {
-    die("Файл базы данных bughunter.db не найден в папке проекта.");
-}
+$dbFile = __DIR__ . '/bughunter.db';
 
 try {
     $pdo = new PDO("sqlite:" . $dbFile);
@@ -11,5 +10,5 @@ try {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->exec("PRAGMA foreign_keys = ON;");
 } catch (PDOException $e) {
-    die("Ошибка подключения к базе данных: " . $e->getMessage());
+    die("Ошибка БД: " . $e->getMessage());
 }

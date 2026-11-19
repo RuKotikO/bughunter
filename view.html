@@ -2,19 +2,22 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BugHunter — Просмотр БД</title>
+    <title>BugHunter — Панель управления</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>Система учёта дефектов «BugHunter» — Содержимое БД</h1>
+        <header class="topbar">
+            <h1>BugHunter — База данных</h1>
+            <div class="user-panel">
+                <span>Пользователь: <strong><?= htmlspecialchars($_SESSION['user_name'] ?? 'ID ' . $_SESSION['user_id']) ?></strong></span>
+                <a href="logout.php" class="btn-logout">Выйти</a>
+            </div>
+        </header>
 
         <?php foreach ($tablesData as $tableName => $rows): ?>
             <section class="table-section">
                 <h2>Таблица: <?= htmlspecialchars($tableName) ?></h2>
-
                 <?php if (count($rows) > 0): ?>
                     <div class="table-wrapper">
                         <table>
@@ -37,11 +40,10 @@
                         </table>
                     </div>
                 <?php else: ?>
-                    <p class="empty-msg">В таблице пока нет записей.</p>
+                    <p class="empty-msg">Нет записей.</p>
                 <?php endif; ?>
             </section>
         <?php endforeach; ?>
     </div>
-
 </body>
 </html>
