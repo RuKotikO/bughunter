@@ -27,7 +27,6 @@ if (!$bug) {
     exit;
 }
 
-// Добавление комментария (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
     $body = trim($_POST['body'] ?? '');
@@ -43,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Комментарии
 $commStmt = $pdo->prepare("
     SELECT c.*, u.full_name AS author_name 
     FROM Comments c 
@@ -54,7 +52,6 @@ $commStmt = $pdo->prepare("
 $commStmt->execute([$bugId]);
 $comments = $commStmt->fetchAll();
 
-// История изменений
 $histStmt = $pdo->prepare("
     SELECT h.*, u.full_name AS user_name 
     FROM BugHistory h 

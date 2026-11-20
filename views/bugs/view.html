@@ -2,14 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BugHunter — Дефект #<?= (int)$bug['bug_id'] ?></title>
     <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
     <div class="container">
-        <?php $activeMenu = 'projects'; require dirname(__DIR__) . '/partials/header.html'; ?>
-        
+        <?php $activeMenu = 'bugs'; require dirname(__DIR__) . '/partials/header.html'; ?>
 
         <?php if ($flash): ?>
             <div class="alert <?= htmlspecialchars($flash['type']) ?>">
@@ -18,11 +17,26 @@
         <?php endif; ?>
 
         <section class="table-section">
-            <h2>Информация о дефекте</h2>
+            <div class="section-header">
+                <h2>Дефект #<?= (int)$bug['bug_id'] ?>: <?= htmlspecialchars($bug['title']) ?></h2>
+                <div class="actions-cell">
+                    <a href="project_view.php?id=<?= (int)$bug['project_id'] ?>" class="btn-sm">← К проекту [<?= htmlspecialchars($bug['project_code']) ?>]</a>
+                    <a href="bugs.php" class="btn-sm">К списку багов</a>
+                    
+                    <?php if (canManageBug($pdo, $bug)): ?>
+                        <a href="bug_edit.php?id=<?= (int)$bug['bug_id'] ?>" class="btn-primary">Редактировать баг</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
             <table>
                 <tr>
                     <th>Проект</th>
-                    <td>[<?= htmlspecialchars($bug['project_code']) ?>] <?= htmlspecialchars($bug['project_name']) ?></td>
+                    <td>
+                        <a href="project_view.php?id=<?= (int)$bug['project_id'] ?>" class="table-link">
+                            [<?= htmlspecialchars($bug['project_code']) ?>] <?= htmlspecialchars($bug['project_name']) ?>
+                        </a>
+                    </td>
                     <th>Статус</th>
                     <td><strong><?= htmlspecialchars($bug['status']) ?></strong></td>
                 </tr>

@@ -13,6 +13,13 @@ if (!$bug) {
     exit;
 }
 
+// Серверная проверка разграничения прав (п. 12 ТЗ)
+if (!canManageBug($pdo, $bug)) {
+    setFlash('error', 'У вас нет прав для редактирования этого дефекта.');
+    header("Location: bug_view.php?id={$bugId}");
+    exit;
+}
+
 $projects = $pdo->query("SELECT project_id, code, name FROM Projects ORDER BY name")->fetchAll();
 $users = $pdo->query("SELECT user_id, full_name FROM Users ORDER BY full_name")->fetchAll();
 
@@ -31,6 +38,12 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
 
+    $projCheck = $pdo->prepare("SELECT project_id FROM Projects WHERE project_id = ?");
+    $projCheck->execute([$projectId]);
+    if (!$projCheck->fetch()) {
+        $errors[] = 'Выбран несуществующий проект.';
+    }
+
     if (mb_strlen($title) < 3 || mb_strlen($title) > 200) {
         $errors[] = 'Заголовок дефекта должен содержать от 3 до 200 символов.';
     }
@@ -42,6 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $assigneeVal = $assigneeId > 0 ? $assigneeId : null;
+    if ($assigneeVal !== null) {
+        $userCheck = $pdo->prepare("SELECT user_id FROM Users WHERE user_id = ?");
+        $userCheck->execute([$assigneeVal]);
+        if (!$userCheck->fetch()) {
+            $errors[] = 'Выбран несуществующий исполнитель.';
+        }
+    }
 
     if (empty($errors)) {
         $changedBy = (int)$_SESSION['user_id'];
@@ -50,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?)
         ");
 
-        // Фиксируем изменения в BugHistory
         $fieldsToTrack = [
             'project_id'  => [(string)$bug['project_id'], (string)$projectId],
             'title'       => [(string)$bug['title'], (string)$title],

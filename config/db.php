@@ -63,3 +63,27 @@ function getFlash(): ?array {
     }
     return null;
 }
+
+function canManageBug(PDO $pdo, array $bug): bool {
+    $userId = (int)($_SESSION['user_id'] ?? 0);
+    if ($userId === 0) {
+        return false;
+    }
+
+    if ((int)$bug['reporter_id'] === $userId || (int)($bug['assignee_id'] ?? 0) === $userId) {
+        return true;
+    }
+
+    // Проверяем, является ли пользователь владельцем проекта этого бага
+    $projStmt = $pdo->prepare("SELECT owner_id FROM Projects WHERE project_id = ?");
+    $projStmt->execute([(int)$bug['project_id']]);
+    $ownerId = (int)$projStmt->fetchColumn();
+    if ($ownerId === $userId) {
+        return true;
+    }
+
+    // Проверяем роль Администратора
+    $roleStmt = $pdo->prepare("SELECT role FROM Users WHERE user_id = ?");
+    $roleStmt->execute([$userId]);
+    return $roleStmt->fetchColumn() === 'Администратор';
+}

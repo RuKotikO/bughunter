@@ -58,16 +58,17 @@
                                     <td><?= htmlspecialchars($bug['assignee_name'] ?? 'Не назначен') ?></td>
                                     <td class="actions-cell">
                                         <a href="bug_view.php?id=<?= (int)$bug['bug_id'] ?>" class="btn-sm">Открыть</a>
-                                        <a href="bug_edit.php?id=<?= (int)$bug['bug_id'] ?>" class="btn-sm">Изменить</a>
                                         
-                                        <?php if ((int)$bug['reporter_id'] === (int)$_SESSION['user_id'] || canManageProject($pdo, ['owner_id' => $bug['project_owner_id']])): ?>
-                                            <form method="POST" action="bug_delete.php" class="inline-form" onsubmit="return confirm('Удалить этот дефект и его историю?');">
+                                        <?php if (canManageBug($pdo, $bug)): ?>
+                                            <a href="bug_edit.php?id=<?= (int)$bug['bug_id'] ?>" class="btn-sm">Изменить</a>
+                                            <form method="POST" action="bug_delete.php" class="inline-form" onsubmit="return confirm('Удалить этот дефект?');">
                                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrfToken()) ?>">
                                                 <input type="hidden" name="bug_id" value="<?= (int)$bug['bug_id'] ?>">
                                                 <button type="submit" class="btn-sm btn-danger">Удалить</button>
                                             </form>
                                         <?php endif; ?>
                                     </td>
+                                    
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
