@@ -22,9 +22,8 @@ $stmt->execute([$bugId]);
 $bug = $stmt->fetch();
 
 if (!$bug) {
-    setFlash('error', 'Дефект не найден.');
-    header('Location: bugs.php');
-    exit;
+    http_response_code(404);
+    die('404 Not Found: Запрашиваемый дефект не найден.');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

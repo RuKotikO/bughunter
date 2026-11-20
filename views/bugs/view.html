@@ -31,14 +31,14 @@
 
             <table>
                 <tr>
-                    <th>Проект</th>
-                    <td>
+                    <th style="width: 18%;">Проект</th>
+                    <td style="width: 32%;">
                         <a href="project_view.php?id=<?= (int)$bug['project_id'] ?>" class="table-link">
                             [<?= htmlspecialchars($bug['project_code']) ?>] <?= htmlspecialchars($bug['project_name']) ?>
                         </a>
                     </td>
-                    <th>Статус</th>
-                    <td><strong><?= htmlspecialchars($bug['status']) ?></strong></td>
+                    <th style="width: 18%;">Статус</th>
+                    <td style="width: 32%;"><strong><?= htmlspecialchars($bug['status']) ?></strong></td>
                 </tr>
                 <tr>
                     <th>Автор</th>
@@ -49,6 +49,22 @@
                 <tr>
                     <th>Исполнитель</th>
                     <td colspan="3"><?= htmlspecialchars($bug['assignee_name'] ?? 'Не назначен') ?></td>
+                </tr>
+                <tr>
+                    <th>Описание</th>
+                    <td colspan="3"><?= nl2br(htmlspecialchars((string)($bug['description'] ?? '—'))) ?></td>
+                </tr>
+                <tr>
+                    <th>Шаги воспроизведения</th>
+                    <td colspan="3"><?= nl2br(htmlspecialchars((string)($bug['steps'] ?? '—'))) ?></td>
+                </tr>
+                <tr>
+                    <th>Ожидаемый результат</th>
+                    <td colspan="3"><?= nl2br(htmlspecialchars((string)($bug['expected_result'] ?? '—'))) ?></td>
+                </tr>
+                <tr>
+                    <th>Фактический результат</th>
+                    <td colspan="3"><?= nl2br(htmlspecialchars((string)($bug['actual_result'] ?? '—'))) ?></td>
                 </tr>
             </table>
         </section>

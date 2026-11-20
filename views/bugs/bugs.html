@@ -2,14 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BugHunter — Все баги</title>
     <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
     <div class="container">
-        <?php $activeMenu = 'projects'; require dirname(__DIR__) . '/partials/header.html'; ?>
-        
+        <?php $activeMenu = 'bugs'; require dirname(__DIR__) . '/partials/header.html'; ?>
 
         <?php if ($flash): ?>
             <div class="alert <?= htmlspecialchars($flash['type']) ?>">
@@ -53,7 +52,7 @@
                                         </a>
                                     </td>
                                     <td><?= htmlspecialchars($bug['status']) ?></td>
-                                    <td><?= htmlspecialchars($bug['priority']) ?></td>
+                                    <td><strong><?= htmlspecialchars($bug['priority']) ?></strong></td>
                                     <td><?= htmlspecialchars($bug['reporter_name'] ?? '—') ?></td>
                                     <td><?= htmlspecialchars($bug['assignee_name'] ?? 'Не назначен') ?></td>
                                     <td class="actions-cell">
@@ -61,14 +60,13 @@
                                         
                                         <?php if (canManageBug($pdo, $bug)): ?>
                                             <a href="bug_edit.php?id=<?= (int)$bug['bug_id'] ?>" class="btn-sm">Изменить</a>
-                                            <form method="POST" action="bug_delete.php" class="inline-form" onsubmit="return confirm('Удалить этот дефект?');">
+                                            <form method="POST" action="bug_delete.php" class="inline-form" onsubmit="return confirm('Удалить этот дефект и его историю?');">
                                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrfToken()) ?>">
                                                 <input type="hidden" name="bug_id" value="<?= (int)$bug['bug_id'] ?>">
                                                 <button type="submit" class="btn-sm btn-danger">Удалить</button>
                                             </form>
                                         <?php endif; ?>
                                     </td>
-                                    
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

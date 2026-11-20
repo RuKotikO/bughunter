@@ -2,12 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BugHunter — <?= htmlspecialchars($pageTitle) ?></title>
     <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
-    <div class="auth-box" style="max-width: 520px;">
+    <div class="auth-box" style="max-width: 640px;">
         <h1><?= htmlspecialchars($pageTitle) ?></h1>
 
         <?php if (!empty($errors)): ?>
@@ -23,6 +23,7 @@
 
             <label>Проект
                 <select name="project_id" required>
+                    <option value="0">— Выберите проект —</option>
                     <?php foreach ($projects as $p): ?>
                         <option value="<?= (int)$p['project_id'] ?>" <?= (int)$p['project_id'] === $projectId ? 'selected' : '' ?>>
                             [<?= htmlspecialchars($p['code']) ?>] <?= htmlspecialchars($p['name']) ?>
@@ -31,8 +32,24 @@
                 </select>
             </label>
 
-            <label>Описание / Заголовок бага
+            <label>Заголовок дефекта
                 <input type="text" name="title" value="<?= htmlspecialchars($title) ?>" maxlength="200" required>
+            </label>
+
+            <label>Подробное описание (description)
+                <textarea name="description" rows="3" style="width:100%; padding:10px; margin-top:6px; border:1px solid #d1d5db; border-radius:6px; font-family:inherit;" required><?= htmlspecialchars($description) ?></textarea>
+            </label>
+
+            <label>Шаги воспроизведения (steps)
+                <textarea name="steps" rows="4" placeholder="1. Открыть страницу...&#10;2. Нажать кнопку..." style="width:100%; padding:10px; margin-top:6px; border:1px solid #d1d5db; border-radius:6px; font-family:inherit;" required><?= htmlspecialchars($steps) ?></textarea>
+            </label>
+
+            <label>Ожидаемый результат (expected_result)
+                <textarea name="expected_result" rows="2" style="width:100%; padding:10px; margin-top:6px; border:1px solid #d1d5db; border-radius:6px; font-family:inherit;" required><?= htmlspecialchars($expectedResult) ?></textarea>
+            </label>
+
+            <label>Фактический результат (actual_result)
+                <textarea name="actual_result" rows="2" style="width:100%; padding:10px; margin-top:6px; border:1px solid #d1d5db; border-radius:6px; font-family:inherit;" required><?= htmlspecialchars($actualResult) ?></textarea>
             </label>
 
             <label>Статус
@@ -70,7 +87,9 @@
         </form>
 
         <p class="auth-link">
-            <a href="project_view.php?id=<?= (int)$projectId ?>">← К проекту</a> | 
+            <?php if ($projectId > 0): ?>
+                <a href="project_view.php?id=<?= (int)$projectId ?>">← К проекту</a> | 
+            <?php endif; ?>
             <a href="bugs.php">К общему списку багов</a>
         </p>
     </div>
